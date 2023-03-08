@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/generalForecastFragment">
+
+    <fragment
+        android:id="@+id/generalForecastFragment"
+        android:name="com.example.weathernc.presentation.generalforecast.GeneralForecastFragment"
+        android:label="fragment_general_forecast"
+        tools:layout="@layout/fragment_general_forecast" >
+        <action
+            android:id="@+id/action_generalForecastFragment_to_detailForecastFragment"
+            app:destination="@id/detailForecastFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailForecastFragment"
+        android:name="com.example.weathernc.presentation.detailforecast.DetailForecastFragment"
+        android:label="fragment_detail_forecast"
+        tools:layout="@layout/fragment_detail_forecast" />
+</navigation>
