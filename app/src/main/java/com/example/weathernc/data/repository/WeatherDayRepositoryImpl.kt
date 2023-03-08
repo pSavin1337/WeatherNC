@@ -20,8 +20,9 @@ class WeatherDayRepositoryImpl @Inject constructor(
 
     override suspend fun getWeatherDayData(city: String): Result {
         val response = weatherApi.getWeatherDataByCity(city)
-        return if (response.isSuccessful && response.body() != null) {
-            val weatherModel = mapper.toWeatherModel(response.body()!!)
+        val responseBody = response.body()
+        return if (response.isSuccessful && responseBody != null) {
+            val weatherModel = mapper.toWeatherModel(responseBody)
             weatherDayDao.deleteWeatherDayDataByCity(city)
             weatherDayDao.insertWeatherDayData(weatherModel.weatherDayModel)
             weatherHourDao.insertWeatherHourData(weatherModel.weatherHourModel)

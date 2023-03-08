@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">WeatherNC</string>
-
-
-
+    <string name="default_city">Ульяновск</string>
+    <string name="city_not_found">Город не найден</string>
 </resources>

@@ -4,6 +4,6 @@ import com.example.weathernc.domain.entity.Result
 
 interface WeatherHourRepository {
 
-    suspend fun getWeatherHourData(): Result
+    suspend fun getWeatherHourData(city: String, date: String): Result
 
 }

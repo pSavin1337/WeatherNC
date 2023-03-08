@@ -9,12 +9,10 @@ import javax.inject.Inject
 
 @BoundTo(supertype = WeatherHourRepository::class, component = SingletonComponent::class)
 class WeatherHourRepositoryImpl @Inject constructor(
-    private val weatherHourDao: WeatherHourDao,
-    private val city: String,
-    private val date: String
+    private val weatherHourDao: WeatherHourDao
 ) : WeatherHourRepository {
 
-    override suspend fun getWeatherHourData(): Result =
+    override suspend fun getWeatherHourData(city: String, date: String): Result =
         Result.Success(weatherHourDao.getWeatherHourDataByCity(city, date))
 
 }

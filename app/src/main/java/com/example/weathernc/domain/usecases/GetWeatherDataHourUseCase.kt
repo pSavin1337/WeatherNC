@@ -5,8 +5,9 @@ import javax.inject.Inject
 
 class GetWeatherDataHourUseCase @Inject constructor(
     private val weatherHourRepository: WeatherHourRepository
-) : UseCase {
+) {
 
-    override suspend fun execute() = weatherHourRepository.getWeatherHourData()
+    suspend fun execute(city: String, date: String) =
+        weatherHourRepository.getWeatherHourData(city.lowercase(), date)
 
 }

@@ -13,7 +13,7 @@ class WeatherMapper {
         weatherApiResponseModel.forecast.forecastday.forEach { dayForecast ->
             weatherDayModelList.add(WeatherDayModel(
                 date = dayForecast.date,
-                city = weatherApiResponseModel.location.name,
+                city = weatherApiResponseModel.location.name.lowercase(),
                 minimalTemperature = dayForecast.day.minTempC.toInt(),
                 averageTemperature = dayForecast.day.avgTempC.toInt(),
                 maximumTemperature = dayForecast.day.maxTempC.toInt(),
@@ -24,7 +24,7 @@ class WeatherMapper {
             dayForecast.hour.forEach { hourForecast ->
                 val (date, hour) = hourForecast.time.split(' ')
                 weatherHourModelList.add(WeatherHourModel(
-                    city = weatherApiResponseModel.location.name,
+                    city = weatherApiResponseModel.location.name.lowercase(),
                     temperature = hourForecast.tempC.toInt(),
                     iconUrl = hourForecast.condition.icon,
                     date = date,

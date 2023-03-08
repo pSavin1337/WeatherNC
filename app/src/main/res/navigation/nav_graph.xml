@@ -18,5 +18,9 @@
         android:id="@+id/detailForecastFragment"
         android:name="com.example.weathernc.presentation.detailforecast.DetailForecastFragment"
         android:label="fragment_detail_forecast"
-        tools:layout="@layout/fragment_detail_forecast" />
+        tools:layout="@layout/fragment_detail_forecast" >
+        <argument
+            android:name="DAY_FORECAST"
+            app:argType="com.example.weathernc.domain.entity.WeatherDayModel" />
+    </fragment>
 </navigation>
