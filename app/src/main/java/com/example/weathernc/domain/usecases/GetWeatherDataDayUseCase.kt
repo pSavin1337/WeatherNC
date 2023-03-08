@@ -8,6 +8,6 @@ class GetWeatherDataDayUseCase @Inject constructor(
     private val weatherDayRepository: WeatherDayRepository
 ) {
 
-    suspend fun execute(city: String): Result = weatherDayRepository.getWeatherDayData(city.lowercase())
+    suspend fun execute(city: String): Result = weatherDayRepository.getWeatherDayData(city)
 
 }

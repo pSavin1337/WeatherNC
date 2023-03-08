@@ -3,21 +3,24 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/weather_card_content"
+    android:background="@drawable/weather_card_drawable"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/weather_card_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/default_text_style"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <ImageView
         android:id="@+id/weather_card_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/weather_card_date"
+        android:layout_width="@dimen/large_icon_size"
+        android:layout_height="@dimen/large_icon_size"
+        android:layout_marginTop="@dimen/margin_default"
+        app:layout_constraintTop_toBottomOf="@id/weather_card_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -25,36 +28,47 @@
         android:id="@+id/weather_card_average_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/weather_card_icon"
+        style="@style/default_text_style"
+        app:layout_constraintTop_toBottomOf="@id/weather_card_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/weather_card_min_temperature"
+        style="@style/default_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/weather_card_average_temperature"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_marginEnd="@dimen/margin_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/weather_card_max_temperature"
+        app:layout_constraintTop_toBottomOf="@id/weather_card_average_temperature" />
 
     <TextView
         android:id="@+id/weather_card_max_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/weather_card_average_temperature"
+        style="@style/default_text_style"
+        app:layout_constraintStart_toEndOf="@id/weather_card_min_temperature"
+        app:layout_constraintTop_toBottomOf="@id/weather_card_average_temperature"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/weather_card_wind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/weather_card_min_temperature"
+        style="@style/default_text_style"
+        android:layout_marginEnd="@dimen/margin_small"
+        app:layout_constraintEnd_toStartOf="@id/weather_card_humidity"
+        app:layout_constraintTop_toBottomOf="@id/weather_card_min_temperature"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/weather_card_humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/weather_card_max_temperature"
+        style="@style/default_text_style"
+        app:layout_constraintStart_toEndOf="@id/weather_card_wind"
+        app:layout_constraintTop_toBottomOf="@id/weather_card_max_temperature"
         app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

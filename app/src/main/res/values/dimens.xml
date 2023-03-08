@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_small">10dp</dimen>
+    <dimen name="margin_default">20dp</dimen>
+    <dimen name="margin_large">50dp</dimen>
+    <dimen name="padding_default">10dp</dimen>
+    <dimen name="text_size_small">15sp</dimen>
+    <dimen name="text_size_default">18sp</dimen>
+    <dimen name="text_size_large">25sp</dimen>
+    <dimen name="large_icon_size">75dp</dimen>
+    <dimen name="small_icon_size">35dp</dimen>
+</resources>

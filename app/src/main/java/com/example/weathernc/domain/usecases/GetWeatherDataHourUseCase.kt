@@ -8,6 +8,6 @@ class GetWeatherDataHourUseCase @Inject constructor(
 ) {
 
     suspend fun execute(city: String, date: String) =
-        weatherHourRepository.getWeatherHourData(city.lowercase(), date)
+        weatherHourRepository.getWeatherHourData(city, date)
 
 }

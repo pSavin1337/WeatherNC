@@ -13,6 +13,7 @@ import com.example.weathernc.databinding.FragmentGeneralForecastBinding
 import com.example.weathernc.databinding.LargeWeatherCardBinding
 import com.example.weathernc.domain.entity.WeatherDayModel
 import com.example.weathernc.presentation.mainactivity.MainActivity
+import com.example.weathernc.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,14 +33,23 @@ class GeneralForecastFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.generalSearchButton.setOnClickListener {
-            viewModel.onSearchButtonClick(binding.generalCityEdittext.text.toString().trim())
+        val cityName = if (viewModel.cityName == "") {
+            getString(R.string.default_city)
+        } else {
+            viewModel.cityName
         }
-        viewModel.onViewCreated(binding.generalCityEdittext.text.toString().trim())
+        binding.generalCityEdittext.setText(cityName)
+        binding.generalSearchButton.setOnClickListener {
+            viewModel.cityName = binding.generalCityEdittext.text.toString().trim()
+            viewModel.onSearchButtonClick()
+        }
+        viewModel.cityName = binding.generalCityEdittext.text.toString().trim()
+        viewModel.onViewCreated()
         viewModel.dayForecastLiveData.observe(viewLifecycleOwner) { forecastThreeDays ->
             val firstDayForecast = forecastThreeDays[0]
             val secondDayForecast = forecastThreeDays[1]
             val thirdDayForecast = forecastThreeDays[2]
+            binding.generalCityNameTextview.text = firstDayForecast.city.toNormalCityFormat()
             setWeatherCard(binding.generalFirstWeatherCard, firstDayForecast)
             setWeatherCard(binding.generalSecondWeatherCard, secondDayForecast)
             setWeatherCard(binding.generalThirdWeatherCard, thirdDayForecast)
@@ -63,12 +73,15 @@ class GeneralForecastFragment : Fragment() {
         Glide.with(this)
             .load(protocol + content.iconUrl)
             .into(weatherCard.weatherCardIcon)
-        weatherCard.weatherCardDate.text = content.date
-        weatherCard.weatherCardHumidity.text = content.humidity.toString()
-        weatherCard.weatherCardWind.text = content.windSpeed.toString()
-        weatherCard.weatherCardAverageTemperature.text = content.averageTemperature.toString()
-        weatherCard.weatherCardMinTemperature.text = content.minimalTemperature.toString()
-        weatherCard.weatherCardMaxTemperature.text = content.maximumTemperature.toString()
+        weatherCard.weatherCardDate.text = content.date.toNormalDateFormat()
+        weatherCard.weatherCardHumidity.text = content.humidity.toString().toNormalHumidityFormat()
+        weatherCard.weatherCardWind.text = content.windSpeed.toString().toNormalSpeedFormat()
+        weatherCard.weatherCardAverageTemperature.text =
+            content.averageTemperature.toString().toNormalTemperatureFormat()
+        weatherCard.weatherCardMinTemperature.text =
+            content.minimalTemperature.toString().toNormalTemperatureFormat()
+        weatherCard.weatherCardMaxTemperature.text =
+            content.maximumTemperature.toString().toNormalTemperatureFormat()
         weatherCard.weatherCardContent.setOnClickListener {
             (activity as MainActivity).showDetailForecast(content)
         }

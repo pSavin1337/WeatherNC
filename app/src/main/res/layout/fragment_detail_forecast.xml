@@ -6,15 +6,28 @@
     tools:context=".presentation.detailforecast.DetailForecastFragment"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/detail_city_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_large"
+        style="@style/large_text_style_primary_color"/>
+
     <include
         android:id="@+id/detail_weather_card"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginHorizontal="@dimen/margin_default"
         layout="@layout/large_weather_card"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/detail_hour_forecast_recycler_view"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginHorizontal="@dimen/margin_default"
         android:layout_height="wrap_content"/>
 
 </LinearLayout>

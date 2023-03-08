@@ -24,17 +24,20 @@ class GeneralForecastViewModel @Inject constructor(
     private val _errorLiveData = MutableLiveData(false)
     val errorLiveData = _errorLiveData as LiveData<Boolean>
 
-    fun onViewCreated(city: String) {
-        getDayForecast(city)
+    var cityName: String = ""
+
+    fun onViewCreated() {
+        getDayForecast()
     }
 
-    fun onSearchButtonClick(city: String) {
-        getDayForecast(city)
+    fun onSearchButtonClick() {
+        getDayForecast()
     }
 
-    private fun getDayForecast(city: String) {
+    private fun getDayForecast() {
+        _errorLiveData.value = false
         viewModelScope.launch(Dispatchers.IO) {
-            val dayForecastResult = weatherDataDayUseCase.execute(city)
+            val dayForecastResult = weatherDataDayUseCase.execute(cityName)
             withContext(Dispatchers.Main) {
                 when (dayForecastResult) {
                     is Result.Success<*> -> {

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weathernc.databinding.SmallWeatherCardBinding
 import com.example.weathernc.domain.entity.WeatherHourModel
+import com.example.weathernc.utils.toNormalTemperatureFormat
 
 class HourForecastAdapter : RecyclerView.Adapter<HourForecastAdapter.HourForecastViewHolder>() {
 
@@ -24,14 +25,15 @@ class HourForecastAdapter : RecyclerView.Adapter<HourForecastAdapter.HourForecas
     }
 
     override fun onBindViewHolder(holder: HourForecastViewHolder, position: Int) {
-        with(holder){
+        with(holder) {
             with(hourForecastList[position]) {
                 val protocol = "https:/"
                 Glide.with(holder.itemView.context)
                     .load(protocol + iconUrl)
                     .into(binding.smallWeatherIcon)
                 binding.smallWeatherHour.text = hour
-                binding.smallWeatherTemperature.text = temperature.toString()
+                binding.smallWeatherTemperature.text =
+                    temperature.toString().toNormalTemperatureFormat()
             }
         }
     }

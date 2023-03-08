@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="small_text_style">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="default_text_style">
+        <item name="android:textSize">@dimen/text_size_default</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="large_text_style_primary_color">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+</resources>

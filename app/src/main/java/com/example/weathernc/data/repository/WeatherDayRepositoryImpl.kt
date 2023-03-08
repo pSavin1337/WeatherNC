@@ -22,11 +22,12 @@ class WeatherDayRepositoryImpl @Inject constructor(
         val response = weatherApi.getWeatherDataByCity(city)
         val responseBody = response.body()
         return if (response.isSuccessful && responseBody != null) {
+            val cityName = responseBody.location.name.lowercase()
             val weatherModel = mapper.toWeatherModel(responseBody)
-            weatherDayDao.deleteWeatherDayDataByCity(city)
+            weatherDayDao.deleteWeatherDayDataByCity(cityName)
             weatherDayDao.insertWeatherDayData(weatherModel.weatherDayModel)
             weatherHourDao.insertWeatherHourData(weatherModel.weatherHourModel)
-            Result.Success(weatherDayDao.getWeatherDayDataByCity(city))
+            Result.Success(weatherDayDao.getWeatherDayDataByCity(cityName))
         } else {
             Result.Error
         }

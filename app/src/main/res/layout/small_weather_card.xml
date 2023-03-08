@@ -2,21 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/weather_card_drawable"
+    android:layout_marginHorizontal="@dimen/margin_small"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/small_weather_hour"
+        style="@style/small_text_style"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="center"/>
 
     <ImageView
         android:id="@+id/small_weather_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        style="@style/small_text_style"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size" />
 
     <TextView
         android:id="@+id/small_weather_temperature"
+        style="@style/small_text_style"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import com.example.weathernc.databinding.FragmentDetailForecastBinding
 import com.example.weathernc.databinding.LargeWeatherCardBinding
 import com.example.weathernc.domain.entity.WeatherDayModel
 import com.example.weathernc.presentation.mainactivity.MainActivity
+import com.example.weathernc.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -22,6 +23,7 @@ class DetailForecastFragment : Fragment() {
     private var _binding: FragmentDetailForecastBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DetailForecastViewModel by viewModels()
+
     @Inject
     lateinit var hourAdapter: HourForecastAdapter
 
@@ -46,6 +48,7 @@ class DetailForecastFragment : Fragment() {
             )
         }
         if (dayForecast != null) {
+            binding.detailCityNameTextview.text = dayForecast.city.toNormalCityFormat()
             setWeatherCard(binding.detailWeatherCard, dayForecast)
             viewModel.onViewCreated(dayForecast.city, dayForecast.date)
             viewModel.errorLiveData.observe(viewLifecycleOwner) { isError ->
@@ -55,8 +58,11 @@ class DetailForecastFragment : Fragment() {
             }
             viewModel.hourForecastLiveData.observe(viewLifecycleOwner) { hourForecast ->
                 with(binding.detailHourForecastRecyclerView) {
-                    layoutManager =
-                        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, true)
+                    layoutManager = LinearLayoutManager(
+                        requireContext(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
                     hourAdapter.hourForecastList = hourForecast
                     adapter = hourAdapter
                 }
@@ -69,16 +75,19 @@ class DetailForecastFragment : Fragment() {
     private fun onError() = (activity as MainActivity).hideDetailForecast()
 
     private fun setWeatherCard(weatherCard: LargeWeatherCardBinding, content: WeatherDayModel) {
-        Glide.with(requireContext()).load(content.iconUrl).into(weatherCard.weatherCardIcon)
-        weatherCard.weatherCardDate.text = content.date
-        weatherCard.weatherCardHumidity.text = content.humidity.toString()
-        weatherCard.weatherCardWind.text = content.windSpeed.toString()
-        weatherCard.weatherCardAverageTemperature.text = content.averageTemperature.toString()
-        weatherCard.weatherCardMinTemperature.text = content.minimalTemperature.toString()
-        weatherCard.weatherCardMaxTemperature.text = content.maximumTemperature.toString()
-        weatherCard.weatherCardContent.setOnClickListener {
-            (activity as MainActivity).showDetailForecast(content)
-        }
+        val protocol = "https:/"
+        Glide.with(this)
+            .load(protocol + content.iconUrl)
+            .into(weatherCard.weatherCardIcon)
+        weatherCard.weatherCardDate.text = content.date.toNormalDateFormat()
+        weatherCard.weatherCardHumidity.text = content.humidity.toString().toNormalHumidityFormat()
+        weatherCard.weatherCardWind.text = content.windSpeed.toString().toNormalSpeedFormat()
+        weatherCard.weatherCardAverageTemperature.text =
+            content.averageTemperature.toString().toNormalTemperatureFormat()
+        weatherCard.weatherCardMinTemperature.text =
+            content.minimalTemperature.toString().toNormalTemperatureFormat()
+        weatherCard.weatherCardMaxTemperature.text =
+            content.maximumTemperature.toString().toNormalTemperatureFormat()
     }
 
     override fun onDestroyView() {
