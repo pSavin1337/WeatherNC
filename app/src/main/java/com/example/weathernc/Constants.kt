@@ -11,5 +11,6 @@ object Constants {
     const val BASE_URL = "https://weatherapi-com.p.rapidapi.com/"
     const val FORECAST_DAYS_COUNT = 3
     const val API_KEY = "f4e24aa97emsh2d29731635401eap15251cjsnee5d725a4a1d"
+    const val CONNECTION_TIME = 5L
 
 }
