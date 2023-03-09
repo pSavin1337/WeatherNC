@@ -9,7 +9,7 @@
         android:id="@+id/generalForecastFragment"
         android:name="com.example.weathernc.presentation.generalforecast.GeneralForecastFragment"
         android:label="fragment_general_forecast"
-        tools:layout="@layout/fragment_general_forecast" >
+        tools:layout="@layout/fragment_general_forecast">
         <action
             android:id="@+id/action_generalForecastFragment_to_detailForecastFragment"
             app:destination="@id/detailForecastFragment" />
@@ -18,7 +18,7 @@
         android:id="@+id/detailForecastFragment"
         android:name="com.example.weathernc.presentation.detailforecast.DetailForecastFragment"
         android:label="fragment_detail_forecast"
-        tools:layout="@layout/fragment_detail_forecast" >
+        tools:layout="@layout/fragment_detail_forecast">
         <argument
             android:name="DAY_FORECAST"
             app:argType="com.example.weathernc.domain.entity.WeatherDayModel" />

@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
     tableName = WEATHER_DAY_TABLE_NAME
 )
 @Parcelize
-data class WeatherDayModel (
+data class WeatherDayModel(
     val date: String,
     val minimalTemperature: Int,
     val averageTemperature: Int,

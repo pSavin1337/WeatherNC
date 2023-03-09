@@ -11,17 +11,17 @@ data class Location(
     val name: String
 )
 
-data class Forecast (
+data class Forecast(
     val forecastday: List<ForecastDay>
 )
 
-data class ForecastDay (
+data class ForecastDay(
     val date: String,
     val day: Day,
     val hour: List<Hour>
 )
 
-data class Day (
+data class Day(
     @SerializedName("maxtemp_c")
     val maxTempC: Double,
 
@@ -40,18 +40,15 @@ data class Day (
     val condition: Condition
 )
 
-data class Hour (
-
+data class Hour(
     val time: String,
 
     @SerializedName("temp_c")
     val tempC: Double,
 
     val condition: Condition,
-
-
 )
 
-data class Condition (
+data class Condition(
     val icon: String
 )

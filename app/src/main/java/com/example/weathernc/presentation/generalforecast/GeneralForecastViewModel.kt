@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GeneralForecastViewModel @Inject constructor(
     private val weatherDataDayUseCase: GetWeatherDataDayUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _dayForecastLiveData = MutableLiveData<List<WeatherDayModel>>()
     val dayForecastLiveData = _dayForecastLiveData as LiveData<List<WeatherDayModel>>

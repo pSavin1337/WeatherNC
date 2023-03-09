@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailForecastViewModel @Inject constructor(
     private val weatherDataHourUseCase: GetWeatherDataHourUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _hourForecastLiveData = MutableLiveData<List<WeatherHourModel>>()
     val hourForecastLiveData = _hourForecastLiveData as LiveData<List<WeatherHourModel>>
@@ -29,7 +29,7 @@ class DetailForecastViewModel @Inject constructor(
 
     private fun getHourForecast(city: String, date: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            when(val hourForecastResult = weatherDataHourUseCase.execute(city, date)) {
+            when (val hourForecastResult = weatherDataHourUseCase.execute(city, date)) {
                 is Result.Success<*> -> {
                     try {
                         _hourForecastLiveData.postValue(hourForecastResult.body as List<WeatherHourModel>)

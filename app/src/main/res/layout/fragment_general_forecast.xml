@@ -1,85 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     tools:context=".presentation.generalforecast.GeneralForecastFragment">
 
     <LinearLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginHorizontal="@dimen/margin_default"
         android:layout_marginTop="@dimen/margin_default"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/shape_secondary_color_drawable"
+        android:orientation="horizontal"
         android:paddingHorizontal="@dimen/padding_default"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/general_city_edittext"
+            style="@style/default_text_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            style="@style/default_text_style"
-            android:gravity="center"
             android:layout_weight="@integer/material_motion_duration_long_1"
-            android:padding="@dimen/padding_default"/>
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:padding="@dimen/padding_default" />
 
         <ImageButton
             android:id="@+id/general_search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow"
             android:backgroundTint="@color/primary_color"
+            android:src="@drawable/ic_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/general_city_name_textview"
+        style="@style/large_text_style_primary_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_default"
-        app:layout_constraintTop_toBottomOf="@id/search_layout"
-        style="@style/large_text_style_primary_color"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/search_layout" />
 
     <include
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/general_first_weather_card"
         layout="@layout/large_weather_card"
-        android:layout_marginTop="@dimen/margin_default"
-        app:layout_constraintTop_toBottomOf="@id/general_city_name_textview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/general_city_name_textview" />
+
+    <include
         android:id="@+id/general_second_weather_card"
+        layout="@layout/large_weather_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_default"
         android:layout_marginBottom="@dimen/margin_large"
-        layout="@layout/large_weather_card"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
+        android:id="@+id/general_third_weather_card"
+        layout="@layout/large_weather_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/general_third_weather_card"
         android:layout_marginEnd="@dimen/margin_default"
         android:layout_marginBottom="@dimen/margin_large"
-        layout="@layout/large_weather_card"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
