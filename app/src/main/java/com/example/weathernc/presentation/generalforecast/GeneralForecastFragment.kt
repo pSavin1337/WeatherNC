@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weathernc.R
 import com.example.weathernc.databinding.FragmentGeneralForecastBinding
-import com.example.weathernc.databinding.LargeWeatherCardBinding
 import com.example.weathernc.domain.entity.WeatherDayModel
 import com.example.weathernc.presentation.mainactivity.MainActivity
-import com.example.weathernc.utils.*
+import com.example.weathernc.utils.toNormalCityFormat
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GeneralForecastFragment : Fragment() {
@@ -22,6 +22,9 @@ class GeneralForecastFragment : Fragment() {
     private var _binding: FragmentGeneralForecastBinding? = null
     private val binding get() = _binding!!
     private val viewModel: GeneralForecastViewModel by viewModels()
+
+    @Inject
+    lateinit var dayAdapter: DayForecastAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,14 +48,15 @@ class GeneralForecastFragment : Fragment() {
         }
         viewModel.cityName = binding.generalCityEdittext.text.toString().trim()
         viewModel.onViewCreated()
-        viewModel.dayForecastLiveData.observe(viewLifecycleOwner) { forecastThreeDays ->
-            val firstDayForecast = forecastThreeDays[0]
-            val secondDayForecast = forecastThreeDays[1]
-            val thirdDayForecast = forecastThreeDays[2]
-            binding.generalCityNameTextview.text = firstDayForecast.city.toNormalCityFormat()
-            setWeatherCard(binding.generalFirstWeatherCard, firstDayForecast)
-            setWeatherCard(binding.generalSecondWeatherCard, secondDayForecast)
-            setWeatherCard(binding.generalThirdWeatherCard, thirdDayForecast)
+        viewModel.dayForecastLiveData.observe(viewLifecycleOwner) { forecastDays ->
+            binding.generalCityNameTextview.text = forecastDays[0].city.toNormalCityFormat()
+            with(binding.generalRecyclerview) {
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                dayAdapter.dayForecastList = forecastDays
+                dayAdapter.onWeatherCardClick = ::onWeatherCardClick
+                adapter = dayAdapter
+            }
         }
         viewModel.errorLiveData.observe(viewLifecycleOwner) { isError ->
             if (isError) {
@@ -61,31 +65,16 @@ class GeneralForecastFragment : Fragment() {
         }
     }
 
+    fun onWeatherCardClick(dayForecast: WeatherDayModel) {
+        (activity as MainActivity).showDetailForecast(dayForecast)
+    }
+
     private fun onError() =
         Toast.makeText(
             requireContext(),
             getText(R.string.city_not_found),
             Toast.LENGTH_SHORT
         ).show()
-
-    private fun setWeatherCard(weatherCard: LargeWeatherCardBinding, content: WeatherDayModel) {
-        val protocol = "https:/"
-        Glide.with(this)
-            .load(protocol + content.iconUrl)
-            .into(weatherCard.weatherCardIcon)
-        weatherCard.weatherCardDate.text = content.date.toNormalDateFormat()
-        weatherCard.weatherCardHumidity.text = content.humidity.toString().toNormalHumidityFormat()
-        weatherCard.weatherCardWind.text = content.windSpeed.toString().toNormalSpeedFormat()
-        weatherCard.weatherCardAverageTemperature.text =
-            content.averageTemperature.toString().toNormalTemperatureFormat()
-        weatherCard.weatherCardMinTemperature.text =
-            content.minimalTemperature.toString().toNormalTemperatureFormat()
-        weatherCard.weatherCardMaxTemperature.text =
-            content.maximumTemperature.toString().toNormalTemperatureFormat()
-        weatherCard.weatherCardContent.setOnClickListener {
-            (activity as MainActivity).showDetailForecast(content)
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

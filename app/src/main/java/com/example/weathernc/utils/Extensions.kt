@@ -4,8 +4,8 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 fun String.toNormalDateFormat(): String {
-    val input = SimpleDateFormat("yyyy-MM-dd", Locale("ru"))
-    val output = SimpleDateFormat("d MMMM", Locale("ru"))
+    val input = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val output = SimpleDateFormat("d MMMM", Locale.getDefault())
     val getAbbreviate = input.parse(this) ?: throw Exception()
     return output.format(getAbbreviate)
 }

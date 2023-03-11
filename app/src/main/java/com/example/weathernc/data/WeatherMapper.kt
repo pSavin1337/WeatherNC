@@ -1,18 +1,20 @@
 package com.example.weathernc.data
 
+import com.example.weathernc.data.database.models.WeatherDayDBModel
+import com.example.weathernc.data.database.models.WeatherHourDBModel
 import com.example.weathernc.data.network.models.WeatherApiResponseModel
+import com.example.weathernc.data.database.models.WeatherModel
 import com.example.weathernc.domain.entity.WeatherDayModel
 import com.example.weathernc.domain.entity.WeatherHourModel
-import com.example.weathernc.domain.entity.WeatherModel
 
 class WeatherMapper {
 
-    fun toWeatherModel(weatherApiResponseModel: WeatherApiResponseModel): WeatherModel {
-        val weatherDayModelList = ArrayList<WeatherDayModel>()
-        val weatherHourModelList = ArrayList<WeatherHourModel>()
+    fun toWeatherDBModel(weatherApiResponseModel: WeatherApiResponseModel): WeatherModel {
+        val weatherDayModelList = ArrayList<WeatherDayDBModel>()
+        val weatherHourModelList = ArrayList<WeatherHourDBModel>()
         weatherApiResponseModel.forecast.forecastday.forEach { dayForecast ->
             weatherDayModelList.add(
-                WeatherDayModel(
+                WeatherDayDBModel(
                     date = dayForecast.date,
                     city = weatherApiResponseModel.location.name.lowercase(),
                     minimalTemperature = dayForecast.day.minTempC.toInt(),
@@ -26,7 +28,7 @@ class WeatherMapper {
             dayForecast.hour.forEach { hourForecast ->
                 val (date, hour) = hourForecast.time.split(' ')
                 weatherHourModelList.add(
-                    WeatherHourModel(
+                    WeatherHourDBModel(
                         city = weatherApiResponseModel.location.name.lowercase(),
                         temperature = hourForecast.tempC.toInt(),
                         iconUrl = hourForecast.condition.icon,
@@ -38,5 +40,30 @@ class WeatherMapper {
         }
         return WeatherModel(weatherDayModelList, weatherHourModelList)
     }
+
+    fun toWeatherDayModel(weatherDayDBModel: WeatherDayDBModel) =
+        with(weatherDayDBModel) {
+            WeatherDayModel(
+                date = date,
+                minimalTemperature = minimalTemperature,
+                averageTemperature = averageTemperature,
+                maximumTemperature = maximumTemperature,
+                city = city,
+                humidity = humidity,
+                windSpeed = windSpeed,
+                iconUrl = iconUrl
+            )
+        }
+
+    fun toWeatherHourModel(weatherHourDBModel: WeatherHourDBModel) =
+        with(weatherHourDBModel) {
+            WeatherHourModel(
+                city = city,
+                date = date,
+                hour = hour,
+                temperature = temperature,
+                iconUrl = iconUrl
+            )
+        }
 
 }

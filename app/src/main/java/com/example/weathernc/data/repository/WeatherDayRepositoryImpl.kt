@@ -6,11 +6,8 @@ import com.example.weathernc.data.database.dao.WeatherHourDao
 import com.example.weathernc.data.network.WeatherApi
 import com.example.weathernc.domain.entity.Result
 import com.example.weathernc.domain.repository.WeatherDayRepository
-import dagger.hilt.components.SingletonComponent
-import it.czerwinski.android.hilt.annotations.BoundTo
 import javax.inject.Inject
 
-@BoundTo(supertype = WeatherDayRepository::class, component = SingletonComponent::class)
 class WeatherDayRepositoryImpl @Inject constructor(
     private val weatherApi: WeatherApi,
     private val weatherDayDao: WeatherDayDao,
@@ -23,11 +20,14 @@ class WeatherDayRepositoryImpl @Inject constructor(
         val responseBody = response.body()
         return if (response.isSuccessful && responseBody != null) {
             val cityName = responseBody.location.name.lowercase()
-            val weatherModel = mapper.toWeatherModel(responseBody)
+            val weatherModel = mapper.toWeatherDBModel(responseBody)
             weatherDayDao.deleteWeatherDayDataByCity(cityName)
             weatherDayDao.insertWeatherDayData(weatherModel.weatherDayModel)
             weatherHourDao.insertWeatherHourData(weatherModel.weatherHourModel)
-            Result.Success(weatherDayDao.getWeatherDayDataByCity(cityName))
+            Result.Success(
+                weatherDayDao.getWeatherDayDataByCity(cityName)
+                    .map { mapper.toWeatherDayModel(it) }
+            )
         } else {
             Result.Error
         }

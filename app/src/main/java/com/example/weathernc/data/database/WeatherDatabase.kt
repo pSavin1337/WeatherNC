@@ -5,11 +5,11 @@ import androidx.room.RoomDatabase
 import com.example.weathernc.Constants.DATABASE_VERSION
 import com.example.weathernc.data.database.dao.WeatherDayDao
 import com.example.weathernc.data.database.dao.WeatherHourDao
-import com.example.weathernc.domain.entity.WeatherDayModel
-import com.example.weathernc.domain.entity.WeatherHourModel
+import com.example.weathernc.data.database.models.WeatherDayDBModel
+import com.example.weathernc.data.database.models.WeatherHourDBModel
 
 @Database(
-    entities = [WeatherDayModel::class, WeatherHourModel::class],
+    entities = [WeatherDayDBModel::class, WeatherHourDBModel::class],
     version = DATABASE_VERSION,
     exportSchema = false
 )
