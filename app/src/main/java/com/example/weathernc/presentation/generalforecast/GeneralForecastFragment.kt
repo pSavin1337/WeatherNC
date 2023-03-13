@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weathernc.R
 import com.example.weathernc.databinding.FragmentGeneralForecastBinding
 import com.example.weathernc.domain.entity.WeatherDayModel
 import com.example.weathernc.presentation.mainactivity.MainActivity
+import com.example.weathernc.presentation.viewmodels.ForecastViewModel
 import com.example.weathernc.utils.toNormalCityFormat
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,7 +22,7 @@ class GeneralForecastFragment : Fragment() {
 
     private var _binding: FragmentGeneralForecastBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: GeneralForecastViewModel by viewModels()
+    private val viewModel: ForecastViewModel by activityViewModels()
 
     @Inject
     lateinit var dayAdapter: DayForecastAdapter
@@ -44,10 +45,10 @@ class GeneralForecastFragment : Fragment() {
         binding.generalCityEdittext.setText(cityName)
         binding.generalSearchButton.setOnClickListener {
             viewModel.cityName = binding.generalCityEdittext.text.toString().trim()
-            viewModel.onSearchButtonClick()
+            viewModel.getDayForecast(requireContext())
         }
         viewModel.cityName = binding.generalCityEdittext.text.toString().trim()
-        viewModel.onViewCreated()
+        viewModel.getDayForecast(requireContext())
         viewModel.dayForecastLiveData.observe(viewLifecycleOwner) { forecastDays ->
             binding.generalCityNameTextview.text = forecastDays[0].city.toNormalCityFormat()
             with(binding.generalRecyclerview) {
@@ -58,26 +59,27 @@ class GeneralForecastFragment : Fragment() {
                 adapter = dayAdapter
             }
         }
-        viewModel.errorLiveData.observe(viewLifecycleOwner) { isError ->
-            if (isError) {
-                onError()
+        if (!viewModel.errorLiveData.hasActiveObservers()) {
+            viewModel.errorLiveData.observe(activity as MainActivity) { message ->
+                onError(message)
             }
         }
     }
 
-    fun onWeatherCardClick(dayForecast: WeatherDayModel) {
-        (activity as MainActivity).showDetailForecast(dayForecast)
+    private fun onWeatherCardClick(dayForecast: WeatherDayModel) {
+        viewModel.currentDayForecast.value = dayForecast
     }
 
-    private fun onError() =
+    private fun onError(message: String) =
         Toast.makeText(
             requireContext(),
-            getText(R.string.city_not_found),
+            message,
             Toast.LENGTH_SHORT
         ).show()
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.cityName = binding.generalCityEdittext.text.toString().trim()
         _binding = null
     }
 

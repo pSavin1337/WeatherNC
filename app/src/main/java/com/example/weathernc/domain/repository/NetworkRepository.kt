@@ -2,8 +2,8 @@ package com.example.weathernc.domain.repository
 
 import com.example.weathernc.domain.entity.Result
 
-interface WeatherDayRepository {
+interface NetworkRepository {
 
-    suspend fun getWeatherDayData(city: String): Result
+    suspend fun getWeatherData(city: String): Result
 
 }

@@ -13,4 +13,8 @@ object Constants {
     const val API_KEY = "f4e24aa97emsh2d29731635401eap15251cjsnee5d725a4a1d"
     const val CONNECTION_TIME = 5L
 
+    //ui
+    const val UNKNOWN_ERROR = "Неизвестная ошибка"
+    const val NOT_FOUND_DATA_ERROR = "Данные не загружены"
+
 }

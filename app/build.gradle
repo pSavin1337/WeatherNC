@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'androidx.navigation.safeargs'
     id 'kotlin-parcelize'
 }
 
@@ -12,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.weathernc"
-        minSdk 21
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName "1.0"

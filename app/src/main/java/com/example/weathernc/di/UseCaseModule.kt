@@ -1,7 +1,7 @@
 package com.example.weathernc.di
 
-import com.example.weathernc.domain.repository.WeatherDayRepository
-import com.example.weathernc.domain.repository.WeatherHourRepository
+import com.example.weathernc.domain.repository.LocalRepository
+import com.example.weathernc.domain.repository.NetworkRepository
 import com.example.weathernc.domain.usecases.GetWeatherDataDayUseCase
 import com.example.weathernc.domain.usecases.GetWeatherDataHourUseCase
 import dagger.Module
@@ -14,11 +14,13 @@ import dagger.hilt.components.SingletonComponent
 class UseCaseModule {
 
     @Provides
-    fun provideWeatherDayUseCase(repository: WeatherDayRepository) =
-        GetWeatherDataDayUseCase(repository)
+    fun provideWeatherDayUseCase(
+        localRepository: LocalRepository,
+        networkRepository: NetworkRepository
+    ) = GetWeatherDataDayUseCase(localRepository, networkRepository)
 
     @Provides
-    fun provideWeatherHourUseCase(repository: WeatherHourRepository) =
-        GetWeatherDataHourUseCase(repository)
+    fun provideWeatherHourUseCase(localRepository: LocalRepository) =
+        GetWeatherDataHourUseCase(localRepository)
 
 }

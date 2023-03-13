@@ -1,18 +1,17 @@
 package com.example.weathernc.presentation.detailforecast
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.weathernc.databinding.FragmentDetailForecastBinding
 import com.example.weathernc.databinding.LargeWeatherCardBinding
 import com.example.weathernc.domain.entity.WeatherDayModel
-import com.example.weathernc.presentation.mainactivity.MainActivity
+import com.example.weathernc.presentation.viewmodels.ForecastViewModel
 import com.example.weathernc.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -22,7 +21,7 @@ class DetailForecastFragment : Fragment() {
 
     private var _binding: FragmentDetailForecastBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DetailForecastViewModel by viewModels()
+    private val viewModel: ForecastViewModel by activityViewModels()
 
     @Inject
     lateinit var hourAdapter: HourForecastAdapter
@@ -37,25 +36,10 @@ class DetailForecastFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dayForecast = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable(
-                MainActivity.DAY_FORECAST_ARGUMENT_NAME,
-                WeatherDayModel::class.java
-            )
-        } else {
-            arguments?.getParcelable(
-                MainActivity.DAY_FORECAST_ARGUMENT_NAME
-            )
-        }
-        if (dayForecast != null) {
+        viewModel.currentDayForecast.observe(viewLifecycleOwner) { dayForecast ->
             binding.detailCityNameTextview.text = dayForecast.city.toNormalCityFormat()
             setWeatherCard(binding.detailWeatherCard, dayForecast)
-            viewModel.onViewCreated(dayForecast.city, dayForecast.date)
-            viewModel.errorLiveData.observe(viewLifecycleOwner) { isError ->
-                if (isError) {
-                    onError()
-                }
-            }
+            viewModel.getHourForecast(dayForecast.city, dayForecast.date)
             viewModel.hourForecastLiveData.observe(viewLifecycleOwner) { hourForecast ->
                 with(binding.detailHourForecastRecyclerView) {
                     layoutManager = LinearLayoutManager(
@@ -67,12 +51,8 @@ class DetailForecastFragment : Fragment() {
                     adapter = hourAdapter
                 }
             }
-        } else {
-            onError()
         }
     }
-
-    private fun onError() = (activity as MainActivity).hideDetailForecast()
 
     private fun setWeatherCard(weatherCard: LargeWeatherCardBinding, content: WeatherDayModel) {
         val protocol = "https:/"

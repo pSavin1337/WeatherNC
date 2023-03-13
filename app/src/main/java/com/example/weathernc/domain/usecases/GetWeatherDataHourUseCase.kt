@@ -1,13 +1,14 @@
 package com.example.weathernc.domain.usecases
 
-import com.example.weathernc.domain.repository.WeatherHourRepository
+import com.example.weathernc.domain.entity.Result
+import com.example.weathernc.domain.repository.LocalRepository
 import javax.inject.Inject
 
 class GetWeatherDataHourUseCase @Inject constructor(
-    private val weatherHourRepository: WeatherHourRepository
+    private val localRepository: LocalRepository
 ) {
 
-    suspend fun execute(city: String, date: String) =
-        weatherHourRepository.getWeatherHourData(city, date)
+    suspend fun execute(city: String, date: String): Result =
+        localRepository.getWeatherHourData(city, date)
 
 }

@@ -52,3 +52,11 @@ data class Hour(
 data class Condition(
     val icon: String
 )
+
+data class ErrorModel(
+    val error: Error
+)
+
+data class Error(
+    val message: String
+)

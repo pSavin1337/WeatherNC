@@ -1,9 +1,5 @@
 package com.example.weathernc.domain.entity
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
 data class WeatherDayModel(
     val date: String,
     val minimalTemperature: Int,
@@ -13,4 +9,4 @@ data class WeatherDayModel(
     val humidity: Int,
     val windSpeed: Double,
     val iconUrl: String
-) : Parcelable
+)

@@ -1,6 +1,7 @@
 package com.example.weathernc.di
 
-import com.example.weathernc.data.WeatherMapper
+import com.example.weathernc.data.mappers.LocalMapper
+import com.example.weathernc.data.mappers.NetworkMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,6 +12,9 @@ import dagger.hilt.components.SingletonComponent
 class MapperModule {
 
     @Provides
-    fun provideMapper(): WeatherMapper = WeatherMapper()
+    fun provideLocalMapper(): LocalMapper = LocalMapper()
+
+    @Provides
+    fun provideNetworkMapper(): NetworkMapper = NetworkMapper()
 
 }
